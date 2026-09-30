@@ -42,5 +42,4 @@ while t < 10:
     if t == 5:  # no incluye el 5
         continue
     print(t)
-else:
-    print("t dejo de ser menor a 10")
+print("t dejo de ser menor a 10")
