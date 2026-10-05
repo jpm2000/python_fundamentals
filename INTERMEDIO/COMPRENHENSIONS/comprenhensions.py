@@ -154,6 +154,7 @@ print(get_sources_comprehension(sample_articles))
 
 # Se requiere hacer iteraciones anidadas
 def categorizar_tradicional(articles):
+    # Ya con el get source
     sources = get_sources_comprehension(articles)
     # Retornar un diccionario
     results = {}
@@ -172,7 +173,7 @@ print(categorizar_tradicional(sample_articles))
 
 
 # Categorizar con comprehension
-def cateforizar_comprehension(articles):
+def categorizar_comprehension(articles):
     sources = get_sources_comprehension(articles)
     return {
         source: [
@@ -184,4 +185,4 @@ def cateforizar_comprehension(articles):
     }
 
 
-print(cateforizar_comprehension(sample_articles))
+print(categorizar_comprehension(sample_articles))
