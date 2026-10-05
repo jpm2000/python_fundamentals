@@ -23,4 +23,49 @@ articles = [
     {"title": "Crypto Update", "source": {"name": "Finance Weekly"}, "views": 15},
 ]
 
-# Write a list comprehension that returns titles of articles with views > 100.
+# 1. Write a list comprehension that returns titles of articles with views > 100.
+
+# 2.Set comprehension:
+"""
+Get the unique source names from articles using a set comprehension. Then answer: what happens to your comprehension if one article is missing the "source" key entirely? Don't just say "it breaks," write the fix.
+"""
+
+# 3. Dict comprehension
+"""
+Build a dict mapping title -> views for articles with more than 100 views.
+"""
+
+# 4. Nested dict comprehension
+"""
+Without copying the pattern from your notes, build from scratch a dict where each key is a unique source name and each value is a list of titles from that source. Do it as a nested comprehension, not two loops. If you get stuck, write the traditional nested-for version first, then convert it, the way the course itself taught you to approach it.
+"""
+
+# 5. The judgment call
+"""
+Take exercise 4 and make it harder: now also filter so only articles with views > 100 are included in the inner lists. At what point does this comprehension stop being "more readable" than a regular nested for loop? Give me your actual opinion, not a hedge. This is the real skill, knowing when to stop.
+"""
+
+# 6. F-strings, formatting
+"""
+Given balance = 1234567.891, write one f-string expression that displays it as $1,234,567.89.
+"""
+
+# 7. F-strings with logic
+"""
+Given the articles list above, write a single f-string (inside a loop or comprehension) that prints each title left-aligned in 20 characters, followed by its view count right-aligned in 8 characters, followed by " (popular)" if views > 100 else " (low)".
+"""
+
+# 8. Combine everything
+"""
+Write one line that produces a list of formatted strings like "Tech Daily: 2 articles, 1250 total views", one per source, sorted by total views descending. This needs a comprehension to aggregate, an f-string to format, and you'll need to think about whether a plain comprehension can even sort, or whether you need something wrapping it.
+"""
+
+
+"""
+EXTRA:
+Push beyond the exercises
+
+Comprehensions are really a restricted, more readable syntax for a mathematical idea: set-builder notation. {x : x ∈ S, P(x)} (the set of all x in S such that P(x) holds) is literally {x for x in S if P(x)}. This is not a coincidence, Python's comprehensions were deliberately modeled on this notation from set theory.
+
+Go investigate: how does this connect to what you'll eventually do with numpy's boolean masking (array[array > 100])? Same underlying idea, wearing different syntax. Come back and explain, in your own words, why vectorized filtering in numpy is actually faster than a Python-level comprehension doing the equivalent filter, in terms of what's happening at the memory/execution level, not just "numpy is faster."
+"""
