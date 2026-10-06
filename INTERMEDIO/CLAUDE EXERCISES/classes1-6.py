@@ -24,31 +24,142 @@ articles = [
 ]
 
 # 1. Write a list comprehension that returns titles of articles with views > 100.
+print("Exercise 1:")
+
+
+def get_titles_over_100(articles):
+    return [article["title"] for article in articles if article["views"] > 100]
+
+
+print(get_titles_over_100(articles))
+
 
 # 2.Set comprehension:
 """
-Get the unique source names from articles using a set comprehension. Then answer: what happens to your comprehension if one article is missing the "source" key entirely? Don't just say "it breaks," write the fix.
+Get the unique source names from articles using a set comprehension. 
+Then answer: what happens to your comprehension if one article is missing the "source" key entirely? 
+Don't just say "it breaks," write the fix.
 """
+print("---------------------------")
+print("Exercise 2:")
+
+
+def get_unique_sources(articles):
+    # The { ... } tells Python to build a set, and sets automatically keep only unique values.
+    return {
+        article.get("source").get("name")
+        for article in articles
+        # This makes sure that the article has a source with a name, because otherwise it could print a None value or
+        if article.get("source") and article.get("source").get("name")
+    }
+
+
+print(get_unique_sources(articles))
 
 # 3. Dict comprehension
 """
 Build a dict mapping title -> views for articles with more than 100 views.
 """
+print("---------------------------")
+print("Exercise 3:")
+
+
+def get_title_views_dict(articles):
+    return {
+        article["title"]: article["views"]
+        for article in articles
+        if article["views"] > 100
+    }
+
+
+print(get_title_views_dict(articles))
+
 
 # 4. Nested dict comprehension
 """
 Without copying the pattern from your notes, build from scratch a dict where each key is a unique source name and each value is a list of titles from that source. Do it as a nested comprehension, not two loops. If you get stuck, write the traditional nested-for version first, then convert it, the way the course itself taught you to approach it.
 """
+print("---------------------------")
+print("Exercise 4:")
+
+
+def get_source_titles_traditional(articles):
+    sources = get_unique_sources(articles)
+    source_titles = {}
+    for source in sources:
+        if source not in source_titles:
+            source_titles[source] = []
+
+        for article in articles:
+            if article.get("source").get("name") == source:
+                source_titles[source].append(article["title"])
+    return source_titles
+
+
+print(get_source_titles_traditional(articles))
+
+
+def get_source_titles_comprehension(articles):
+    sources = get_unique_sources(articles)
+    return {
+        source: [
+            article["title"]
+            for article in articles
+            if article.get("source").get("name") == source
+        ]
+        for source in sources
+    }
+
+
+print(get_source_titles_comprehension(articles))
+
 
 # 5. The judgment call
 """
 Take exercise 4 and make it harder: now also filter so only articles with views > 100 are included in the inner lists. At what point does this comprehension stop being "more readable" than a regular nested for loop? Give me your actual opinion, not a hedge. This is the real skill, knowing when to stop.
 """
+print("---------------------------")
+print("Exercise 5:")
+
+
+def filter_source_titles_traditional_100_views(articles):
+    sources = get_unique_sources(articles)
+    source_titles = {}
+    for source in sources:
+        source_titles[source] = []
+        for article in articles:
+            if article["source"]["name"] == source and article["views"] > 100:
+                source_titles[source].append(article["title"])
+    return source_titles
+
+
+print(filter_source_titles_traditional_100_views(articles))
+
+
+def filter_source_titles_comprehension_100_views(articles):
+    sources = get_unique_sources(articles)
+    return {
+        source: [
+            article["title"]
+            for article in articles
+            if article["source"]["name"] == source and article["views"] > 100
+        ]
+        for source in sources
+    }
+
+
+print(filter_source_titles_comprehension_100_views(articles))
 
 # 6. F-strings, formatting
 """
 Given balance = 1234567.891, write one f-string expression that displays it as $1,234,567.89.
 """
+print("---------------------------")
+print("Exercise 6:")
+
+balance = 1234567.891
+text = f"The balance is: {balance:,}"
+print(text)
 
 # 7. F-strings with logic
 """
