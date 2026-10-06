@@ -165,11 +165,82 @@ print(text)
 """
 Given the articles list above, write a single f-string (inside a loop or comprehension) that prints each title left-aligned in 20 characters, followed by its view count right-aligned in 8 characters, followed by " (popular)" if views > 100 else " (low)".
 """
+print("---------------------------")
+print("Exercise 7:")
+
+
+def popular_articles_traditional(articles):
+    for article in articles:
+        if article["views"] > 100:
+            print(
+                f"Title: {article['title']:<20} Views count: {article['views']:>8} Popularity: (popular)"
+            )
+        else:
+            print(
+                f"Title: {article['title']:<20} Views count: {article['views']:>8} Popularity: (low)"
+            )
+
+
+popular_articles_traditional(articles)
+
+
+# V1
+def popular_articles_comprehension(articles):
+    return "\n".join(
+        [
+            f"Title: {article['title']:<20} Views count: {article['views']:>8} Popularity: {'popular' if article['views'] > 100 else 'low'}"
+            for article in articles
+        ]
+    )
+
+
+print(popular_articles_comprehension(articles))
+
+
+# V2: best practices with the join
+def popular_articles_comprehension(articles):
+    return [
+        f"Title: {article['title']:<20} Views count: {article['views']:>8} Popularity: {'popular' if article['views'] > 100 else 'low'}"
+        for article in articles
+    ]
+
+
+print("\n".join(popular_articles_comprehension(articles)))
 
 # 8. Combine everything
 """
 Write one line that produces a list of formatted strings like "Tech Daily: 2 articles, 1250 total views", one per source, sorted by total views descending. This needs a comprehension to aggregate, an f-string to format, and you'll need to think about whether a plain comprehension can even sort, or whether you need something wrapping it.
 """
+print("---------------------------")
+print("Exercise 8:")
+
+
+def suma(articles):
+    return sum([article["views"] for article in articles])
+
+
+print(suma(articles))
+
+
+def number(articles):
+    return len([article["views"] for article in articles])
+
+
+print(len(articles))
+
+
+def sources_articles_views(articles):
+    sources = get_unique_sources(articles)
+    return {
+        source: [
+            f"{len(article)} articles, {sum([article['views'] for article in articles])} total views"
+            for article in articles
+        ]
+        for source in sources
+    }
+
+
+print(sources_articles_views(articles))
 
 
 """
