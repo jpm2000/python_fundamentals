@@ -233,8 +233,7 @@ def sources_articles_views(articles):
     sources = get_unique_sources(articles)
     return {
         source: [
-            f"{len(article)} articles, {sum([article['views'] for article in articles])} total views"
-            for article in articles
+            f"{len([article['views'] for article in articles if article['source']['name'] == source])} articles, {sum([article['views'] for article in articles if article['source']['name'] == source])} total views"
         ]
         for source in sources
     }
