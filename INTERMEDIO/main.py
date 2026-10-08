@@ -37,8 +37,48 @@ def process_article_data(raw_data):
 
 
 # Traer el API de las noticias
+
+# Clase 9: Conectar Python a NewsAPI con parámetros reales
+
+import json
+import urllib.parse
+import urllib.request
+
+# import requests
+
+NEWSAPI_KEY = "pub_e84fe709ba3a44c7905e324540f98d69"
+BASE_URL = (
+    "https://newsdata.io/api/1/market?apikey=pub_e84fe709ba3a44c7905e324540f98d69"
+)
+
+# Tuvo unas modificaciones en la clase 9
+
+
+def newsapi_client(api_key, query, timeout=30, retries=3):
+    query_string = urllib.parse.urlencode({"q": query, "apiKey": api_key})
+
+    # print(query_string) solo para validar
+    url = (
+        f"{BASE_URL}?{query_string}"  # Aca le sumo los parametros que le voy agregando
+    )
+
+    # print(url) solo para validar
+
+    with urllib.request.urlopen(url, timeout=timeout) as response:
+        data = response.read().decode(
+            "utf-8"
+        )  # Estoy recibiendo bytes, entonces uso decode. Por lo que viene en json
+        return json.loads(data)
+        # Ya no usaré esta parte: print(f"Response data: {data[:100]}...")  # Imprime los primeros 100 caracteres
+
+    return f"NewsAPI: {query} con timeout {timeout}"
+
+
+"""
+Version clase 7
 def newsapi_client(api_key, query, timeout=30, retries=3):
     return f"NewsAPI: {query} con timeout {timeout}"
+"""
 
 
 # Simulo que tengo la API
@@ -109,18 +149,28 @@ def fetch_news(api_name, *args, **kwargs):
 
     api_clients = {"newsapi": newsapi_client, "guardian": guardian_client}
 
-    client = api_clients[api_clients]
+    client = api_clients[api_name]
     # Usar doble ** es como pasar los valores internamente
     return client(*args, **config)
 
 
-import requests
-
+"""
 NEWSAPI_KEY = "pub_e84fe709ba3a44c7905e324540f98d69"
 
 url = "https://newsdata.io/api/1/market?apikey=pub_e84fe709ba3a44c7905e324540f98d69"
 response = requests.get(url)
 data = response.json()
-print(data)
+# print(data)
 
-fetch_news(NEWSAPI_KEY)
+fetch_news(NEWSAPI_KEY, "Informacion de la API: ", url=url, data_response=data)
+
+"""
+response_data = fetch_news("newsapi", api_key=NEWSAPI_KEY, query="Apple")
+# print(response_data) impprime todo
+print(response_data.keys())  # para ver las llaves que estoy recibiendo en el servidor
+
+# Ahora quiero recibir una lista directa de los resultados o articles
+# print(response_data["results"])
+
+for article in response_data["results"]:
+    print(article["title"])
