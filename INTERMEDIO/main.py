@@ -44,9 +44,22 @@ import json
 import urllib.parse
 import urllib.request
 
+
+class NewsSystemError(Exception):
+    """
+    Error general en la app
+    """
+
+
+class APIKeyError(NewsSystemError):
+    """
+    Error cuando la API KEY es invalida
+    """
+
+
 # import requests
 
-NEWSAPI_KEY = "pub_e84fe709ba3a44c7905e324540f98d69"
+NEWSAPI_KEY = "pub_e84fe709ba3a44c7905e324540f98d691"
 BASE_URL = (
     "https://newsdata.io/api/1/market?apikey=pub_e84fe709ba3a44c7905e324540f98d69"
 )
@@ -63,12 +76,17 @@ def newsapi_client(api_key, query, timeout=30, retries=3):
     )
 
     # print(url) solo para validar
+    try:
+        with urllib.request.urlopen(url, timeout=timeout) as response:
+            data = response.read().decode(
+                "utf-8"
+            )  # Estoy recibiendo bytes, entonces uso decode. Por lo que viene en json
+            return json.loads(data)
+    except urllib.error.HTTPError:
+        raise APIKeyError("Ocurrio un error, no se conecto la API")
 
-    with urllib.request.urlopen(url, timeout=timeout) as response:
-        data = response.read().decode(
-            "utf-8"
-        )  # Estoy recibiendo bytes, entonces uso decode. Por lo que viene en json
-        return json.loads(data)
+        # print("La API kEY es invalidad") clase 11
+        # return {"results": []} clase 11
         # Ya no usaré esta parte: print(f"Response data: {data[:100]}...")  # Imprime los primeros 100 caracteres
 
     return f"NewsAPI: {query} con timeout {timeout}"
@@ -165,12 +183,22 @@ data = response.json()
 fetch_news(NEWSAPI_KEY, "Informacion de la API: ", url=url, data_response=data)
 
 """
-response_data = fetch_news("newsapi", api_key=NEWSAPI_KEY, query="Apple")
-# print(response_data) impprime todo
-print(response_data.keys())  # para ver las llaves que estoy recibiendo en el servidor
 
 # Ahora quiero recibir una lista directa de los resultados o articles
 # print(response_data["results"])
 
-for article in response_data["results"]:
-    print(article["title"])
+
+response_data = None
+try:
+    response_data = fetch_news("newsapi", api_key=NEWSAPI_KEY, query="Apple")
+except APIKeyError as e:
+    print(e)
+# print(response_data) impprime todo
+if response_data:
+    print(
+        response_data.keys()
+    )  # para ver las llaves que estoy recibiendo en el servidor
+
+if response_data:
+    for article in response_data["results"]:
+        print(article["title"])
