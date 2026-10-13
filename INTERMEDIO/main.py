@@ -8,11 +8,45 @@ API_TIMEOUT = 30
 MAX_RETRIES = 3
 DEFAULT_LANGUAGE = "es"  # PEP 8: comillas dobles para los strings
 
-
+"""
 # PEP 8: Utilidades comunes del proyecot - funciones en snake_case
 def clean_text(text):
     # PEP 8: Usar siempre 4 espacios por identacioin, no tabs
-    """Limpia y normaliza el texto."""  # PEP 8: docstrings en comillas doblres triples
+    #Limpia y normaliza el texto.  # PEP 8: docstrings en comillas doblres triples
+    if not text:
+        return ""
+    return text.strip().lower()
+"""
+
+
+# Clase 15 usando docstrings
+def clean_text(text):
+    """
+    DESCRIPCION:
+        Limpia y normaliza el texto eliminando espacios al inicio y al final
+        y convirtiendo todos los caracteres a minusculas.
+
+    ARGUMENTOS:
+        text (str): Texto que se desea limpiar y normalizar.
+
+    RETURNS:
+        str: Texto limpio y convertido a minusculas. Retorna una cadena vacia
+        si la entrada es un valor falsy.
+
+    EXCEPTIONS:
+        AttributeError: Si la entrada no es falsy y no tiene los metodos
+        strip() y lower().
+
+    EXAMPLES:
+        >>> clean_text("  Hola Mundo  ")
+        'hola mundo'
+        >>> clean_text("PYTHON")
+        'python'
+        >>> clean_text("")
+        ''
+        >>> clean_text(None)
+        ''
+    """
     if not text:
         return ""
     return text.strip().lower()
@@ -102,54 +136,6 @@ def newsapi_client(api_key, query, timeout=30, retries=3):
 # Simulo que tengo la API
 def guardian_client(api_key, section, from_date, timeout=30, retries=3):
     return f"Guardian {section} desde {from_date} con {timeout}"
-
-
-# El orden si importa cuando trabajo con estas funciones y los args
-# Los args son las listas dinamicas
-print("args")
-
-
-def ejemplo_args(api_key, *args):
-    print(f"api key: {api_key}")
-    print(f"TODOS {args}")
-    print(f"{type(args)}")
-
-
-# Representacion de una tupla
-ejemplo_args("API_KEY_VALUE", "Este", "Parametro", "Aca")
-ejemplo_args("API_KEY_VALUE", "Hola", "Mundo")
-# ejemplo_args() # Si no lo envio va a fallar
-
-
-# Uso de args para hacer la suma
-def suma(*args):
-    return sum(args)
-
-
-print(suma(1, 2, 3, 4, 5, 6, 6, 7))
-
-# Ahora para kwargs
-print(" ")
-print("kwargs")
-
-
-def ejemplo_kwargs(**kwargs):
-    print(f"kwargs type: {type(kwargs)}")
-    print(f"kwargs: {kwargs}")
-    print("========")
-
-
-# Le paso key y el value
-ejemplo_kwargs(key="value", llave="valor")
-# Es un tipo de diccionario, donde esta la llave y el valor. Como tal la funcion no recibe un valor, solo los kwargs
-
-
-ejemplo_kwargs(api_key="DEMO", query="Nocitias de python", timeout=30, retries=3)
-ejemplo_kwargs(
-    api_key="DEMO_GUARDIAN", section="Sports", from_date="20", timeout=30, retries=3
-)
-
-# Es un solo metodo al que le podemos agregar varios valores y parametros
 
 
 # El orden siempre importa, lo obligatorio va primero
