@@ -1,5 +1,11 @@
 import json
 import urllib
+import urllib.parse
+import urllib.request
+
+# Usar la importacion relativa porque esta en el mismo paquete
+from .config import BASE_URL
+from .exceptions import APIKeyError
 
 
 # Simulo que tengo la API
