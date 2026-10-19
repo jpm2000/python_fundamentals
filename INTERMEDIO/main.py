@@ -22,5 +22,6 @@ if response_data:
     for article in response_data["results"]:
         print(article["title"])
 
-    get_articles_by_source(response_data["articles"], ["Bloomberg"])
-    print
+    articulos_ejemplo = get_articles_by_source(response_data["results"], "Bloomberg")
+    for eje_article in articulos_ejemplo:
+        print(articulos_ejemplo["source"], articulos_ejemplo["title"])

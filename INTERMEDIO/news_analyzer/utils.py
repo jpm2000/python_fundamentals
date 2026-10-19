@@ -10,4 +10,10 @@ def get_sources_comprehension(articles):
 
 
 def get_articles_by_source(articles: list[dict], source: str) -> list[dict]:
-    return list(filter(lambda article: article["source"]["name"] == source, articles))
+    print({article["source"]["name"] for article in articles})
+    return list(
+        filter(
+            lambda article: article["source"]["name"].lower() == source.lower(),
+            articles,
+        )
+    )
